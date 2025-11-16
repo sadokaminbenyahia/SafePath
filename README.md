@@ -52,6 +52,7 @@ Core idea:
     - *Safety score (0–100)*,
     - *Green driving score (0–100)*,
     - *Driver points* (used for discounts / advantages).
+    
 
 - *Driver interface (web)*
   - Dashboard with:
@@ -62,16 +63,9 @@ Core idea:
     - list of violations,
     - speed vs limit,
     - associated frame / image as *proof*.
+<img width="1898" height="917" alt="image" src="https://github.com/user-attachments/assets/8b386e16-afbc-4cc3-8431-26102c3c0007" />
 
-- *Insurer risk dashboard (web)*
-  - Portfolio view:
-    - number of monitored drivers,
-    - average scores,
-    - infractions / week,
-    - distribution by risk class (low / medium / high).
-  - Estimated impact on:
-    - claim costs,
-    - CO₂ and eco-driving indicators (for RSE reporting).
+
 
 - *Administrative client view (web)*
   - Full client list with:
