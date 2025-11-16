@@ -1,0 +1,5 @@
+GreenLight
+RedLight
+SpeedLimit30
+SpeedLimit50
+Stop

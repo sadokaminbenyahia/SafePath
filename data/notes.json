@@ -1,0 +1,29 @@
+{
+  "categories": [
+    {
+      "id": 0,
+      "name": "GreenLight"
+    },
+    {
+      "id": 1,
+      "name": "RedLight"
+    },
+    {
+      "id": 2,
+      "name": "SpeedLimit30"
+    },
+    {
+      "id": 3,
+      "name": "SpeedLimit50"
+    },
+    {
+      "id": 4,
+      "name": "Stop"
+    }
+  ],
+  "info": {
+    "year": 2025,
+    "version": "1.0",
+    "contributor": "Label Studio"
+  }
+}

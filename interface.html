@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lloyd SafeDrive – Tableau de bord conducteur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --border: #e2e8f0;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --blue-dark: #0f172a;
+        --blue: #0f4a7b;
+        --blue-soft: #e0f2fe;
+        --emerald: #059669;
+        --amber: #f59e0b;
+        --card-bg: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text-main);
+      }
+
+      .layout {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        height: 64px;
+        border-bottom: 1px solid var(--border);
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-logo {
+        height: 36px;
+        width: 36px;
+        border-radius: 999px;
+        background: var(--blue);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 18px;
+      }
+
+      .brand-text-title {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+
+      .brand-text-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .user-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .user-text {
+        text-align: right;
+      }
+
+      .user-name {
+        font-weight: 500;
+        color: var(--text-main);
+      }
+
+      .user-role {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .user-avatar {
+        height: 36px;
+        width: 36px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #4b5563;
+      }
+
+      .logout-btn {
+        border: none;
+        background: none;
+        font-size: 11px;
+        color: #6b7280;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .logout-icon {
+        font-size: 12px;
+      }
+
+      .main-area {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
+
+      .sidebar {
+        width: 240px;
+        background: #020617;
+        color: #e5e7eb;
+        border-right: 1px solid #111827;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-title {
+        padding: 16px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #94a3b8;
+      }
+
+      .nav {
+        flex: 1;
+        padding: 0 8px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #e5e7eb;
+        margin-bottom: 4px;
+      }
+
+      .nav-item.active {
+        background: #020617;
+        font-weight: 500;
+      }
+
+      .nav-icon {
+        font-size: 13px;
+      }
+
+      .nav-item:hover {
+        background: rgba(15, 23, 42, 0.7);
+      }
+
+      .sidebar-footer {
+        border-top: 1px solid #1f2937;
+        padding: 12px 16px;
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .content {
+        flex: 1;
+        padding: 16px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .content-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .content-title {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .content-title h1 {
+        font-size: 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .content-title-icon {
+        font-size: 18px;
+        color: var(--blue);
+      }
+
+      .content-title-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .chip {
+        border-radius: 6px;
+        border: 1px solid #10b981;
+        background: #ecfdf5;
+        color: #047857;
+        font-size: 11px;
+        padding: 4px 8px;
+      }
+
+      .btn-primary {
+        border-radius: 6px;
+        border: none;
+        padding: 6px 12px;
+        font-size: 11px;
+        color: white;
+        background: var(--blue);
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background: #082f49;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .sidebar {
+          display: none;
+        }
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        padding: 16px;
+      }
+
+      .card-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .card-title {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .card-title-main {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-title-icon {
+        font-size: 14px;
+        color: var(--blue);
+      }
+
+      .card-title-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .badge {
+        font-size: 11px;
+        border-radius: 999px;
+        padding: 4px 8px;
+      }
+
+      .badge-blue {
+        background: var(--blue);
+        color: white;
+      }
+
+      .section-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+
+      .section-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-main);
+      }
+
+      .progress {
+        width: 100%;
+        height: 6px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+        margin: 6px 0;
+      }
+
+      .progress-bar-blue {
+        height: 100%;
+        background: #2563eb;
+      }
+
+      .progress-bar-green {
+        height: 100%;
+        background: #16a34a;
+      }
+
+      .small-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .mini-card {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+        padding: 8px;
+        font-size: 11px;
+      }
+
+      .mini-title {
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .mini-value {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .mini-text {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .points-card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 11px;
+      }
+
+      .points-value {
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      .chip-outline {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+        padding: 8px;
+      }
+
+      .chip-title {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-main);
+        margin-bottom: 4px;
+      }
+
+      .chip-text {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .btn-outline {
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        padding: 6px 8px;
+        font-size: 11px;
+        background: white;
+        cursor: pointer;
+      }
+
+      .btn-outline:hover {
+        background: #f3f4f6;
+      }
+
+      .grid-bottom {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .grid-bottom {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+      }
+
+      thead {
+        border-bottom: 1px solid var(--border);
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 10px;
+      }
+
+      th,
+      td {
+        padding: 6px 6px;
+        text-align: left;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .inf-badge-ok {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        border: 1px solid #bbf7d0;
+        background: #ecfdf5;
+        color: #047857;
+        padding: 2px 8px;
+        font-size: 10px;
+      }
+
+      .inf-badge-warn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border-radius: 999px;
+        border: 1px solid #fed7aa;
+        background: #fffbeb;
+        color: #b45309;
+        padding: 2px 8px;
+        font-size: 10px;
+      }
+
+      .alert-card {
+        border-radius: 8px;
+        border-left: 4px solid;
+        padding: 8px;
+        font-size: 11px;
+      }
+
+      .alert-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .alert-text {
+        color: var(--text-muted);
+      }
+
+      .alert-orange {
+        border-color: #f59e0b;
+        background: #fffbeb;
+        color: #92400e;
+      }
+
+      .alert-green {
+        border-color: #10b981;
+        background: #ecfdf5;
+        color: #065f46;
+      }
+
+      .alert-blue {
+        border-color: #0ea5e9;
+        background: #e0f2fe;
+        color: #0369a1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Header -->
+      <header>
+        <div class="brand">
+          <div class="brand-logo">L</div>
+          <div>
+            <div class="brand-text-title">Lloyd Assurances</div>
+            <div class="brand-text-sub">
+              Mobilité responsable – Espace conducteur
+            </div>
+          </div>
+        </div>
+        <div class="user-section">
+          <div class="user-text">
+            <div class="user-name">Ahmed Ben Ali</div>
+            <div class="user-role">
+              Client Auto – Pack Mobilité Responsable
+            </div>
+          </div>
+          <div class="user-avatar">AB</div>
+          <button class="logout-btn">
+            <span class="logout-icon">⟵</span>
+            <span>Déconnexion</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="main-area">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-title">Navigation</div>
+          <div class="nav">
+            <div class="nav-item active">
+              <span class="nav-icon">⟲</span>
+              <span>Tableau de bord</span>
+            </div>
+            <div class="nav-item">
+              <span class="nav-icon">🗺</span>
+              <span>Mes trajets</span>
+            </div>
+            <div class="nav-item">
+              <span class="nav-icon">🎁</span>
+              <span>Mes avantages</span>
+            </div>
+          </div>
+          <div class="sidebar-footer">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            Lloyd Assurances
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="content">
+          <!-- Header content -->
+          <div class="content-header">
+            <div class="content-title">
+              <h1>
+                <span class="content-title-icon">🚗</span>
+                <span>Tableau de bord conducteur</span>
+              </h1>
+              <div class="content-title-sub">
+                Suivi de votre conduite, de vos points et de votre impact
+                environnemental.
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center">
+              <span class="chip">
+                Profil actuel : Conducteur responsable
+              </span>
+              <button class="btn-primary">Exporter mon rapport</button>
+            </div>
+          </div>
+
+          <!-- Scores + Points -->
+          <div class="grid-3">
+            <!-- Scores card -->
+            <div class="card">
+              <div class="card-title-row">
+                <div class="card-title">
+                  <div class="card-title-main">
+                    <span class="card-title-icon">⎈</span>
+                    <span>Scores de conduite</span>
+                  </div>
+                  <div class="card-title-sub">
+                    Calculés à partir de vos 30 derniers jours de trajets.
+                  </div>
+                </div>
+                <span class="badge badge-blue">Mise à jour quotidienne</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                <div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      font-size: 12px;
+                      margin-bottom: 4px;
+                    "
+                  >
+                    <span>Safety score</span>
+                    <span style="font-weight: 600">82/100</span>
+                  </div>
+                  <div class="progress">
+                    <div
+                      class="progress-bar-blue"
+                      style="width: 82%"
+                    ></div>
+                  </div>
+                  <div class="mini-text">
+                    Basé sur le respect des limitations, des panneaux et la
+                    stabilité de votre conduite.
+                  </div>
+                </div>
+
+                <div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      font-size: 12px;
+                      margin-bottom: 4px;
+                    "
+                  >
+                    <span>Green driving score</span>
+                    <span style="font-weight: 600">76/100</span>
+                  </div>
+                  <div class="progress">
+                    <div
+                      class="progress-bar-green"
+                      style="width: 76%"
+                    ></div>
+                  </div>
+                  <div class="mini-text">
+                    Mesure l’éco-conduite : fluidité, anticipation,
+                    optimisation de la consommation.
+                  </div>
+                </div>
+              </div>
+
+              <div class="small-grid-3">
+                <div class="mini-card">
+                  <div class="mini-title">Comparaison à votre profil</div>
+                  <div class="mini-value">Top 18 %</div>
+                  <div class="mini-text">
+                    Vous conduisez mieux que la majorité des conducteurs ayant
+                    le même âge et usage.
+                  </div>
+                </div>
+                <div class="mini-card">
+                  <div class="mini-title">Tendance 30 jours</div>
+                  <div class="mini-value" style="color: var(--emerald)">
+                    +6 pts
+                  </div>
+                  <div class="mini-text">
+                    Amélioration progressive grâce à la réduction des excès de
+                    vitesse.
+                  </div>
+                </div>
+                <div class="mini-card">
+                  <div class="mini-title">Infractions critiques</div>
+                  <div class="mini-value" style="color: var(--amber)">
+                    2 ce mois-ci
+                  </div>
+                  <div class="mini-text">
+                    Principalement des dépassements de limitation en
+                    agglomération.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Points card -->
+            <div class="card points-card">
+              <div style="display: flex; align-items: center; gap: 6px">
+                <span style="font-size: 14px; color: var(--blue)">🎁</span>
+                <span
+                  style="
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--text-main);
+                  "
+                  >Points &amp; avantages</span
+                >
+              </div>
+
+              <div>
+                <div class="section-title">Points cumulés ce mois-ci</div>
+                <div class="points-value">1240 pts</div>
+                <div class="mini-text">
+                  Gagnés en respectant les limitations, en réduisant les
+                  freinages brusques et en adoptant une conduite éco-responsable.
+                </div>
+              </div>
+
+              <div class="chip-outline">
+                <div class="chip-title">Impact sur votre prime</div>
+                <div
+                  style="font-size: 13px; font-weight: 600; color: var(--emerald)"
+                >
+                  Réduction estimée : -12 % sur la prochaine échéance
+                </div>
+                <div class="chip-text">
+                  Sous réserve de stabilité de votre score jusqu’à la date de
+                  renouvellement.
+                </div>
+              </div>
+
+              <div class="chip-outline">
+                <div class="chip-title">Impact environnemental estimé</div>
+                <div style="font-size: 13px; font-weight: 600">
+                  9,3 L de carburant et ~21,7 kg de CO₂ évités ce mois-ci
+                </div>
+                <div class="chip-text">
+                  Estimation basée sur votre amélioration par rapport à un
+                  conducteur moyen.
+                </div>
+              </div>
+
+              <button class="btn-outline">
+                Consulter le catalogue d’avantages
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom grid -->
+          <div class="grid-bottom">
+            <!-- Journeys -->
+            <div class="card">
+              <div class="card-title-row" style="margin-bottom: 8px">
+                <div class="card-title">
+                  <div class="card-title-main">
+                    <span class="card-title-icon">🗺</span>
+                    <span>Derniers trajets analysés</span>
+                  </div>
+                  <div class="card-title-sub">
+                    Détail des scores par trajet et infractions détectées.
+                  </div>
+                </div>
+                <button class="btn-outline" style="width: auto">
+                  Voir tous les trajets
+                </button>
+              </div>
+
+              <div style="overflow-x: auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Trajet</th>
+                      <th class="text-right">Distance</th>
+                      <th class="text-right">Durée</th>
+                      <th class="text-right">Score</th>
+                      <th class="text-right">Infractions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>14 nov. 2025</td>
+                      <td>Tunis → Ariana</td>
+                      <td class="text-right">18 km</td>
+                      <td class="text-right">32 min</td>
+                      <td class="text-right"><strong>86</strong></td>
+                      <td class="text-right">
+                        <span class="inf-badge-warn">
+                          ⚠ 1
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>13 nov. 2025</td>
+                      <td>Lac 2 → Centre-ville</td>
+                      <td class="text-right">11 km</td>
+                      <td class="text-right">25 min</td>
+                      <td class="text-right"><strong>74</strong></td>
+                      <td class="text-right">
+                        <span class="inf-badge-warn">
+                          ⚠ 2
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>12 nov. 2025</td>
+                      <td>Marsa → Tunis</td>
+                      <td class="text-right">22 km</td>
+                      <td class="text-right">40 min</td>
+                      <td class="text-right"><strong>92</strong></td>
+                      <td class="text-right">
+                        <span class="inf-badge-ok">Aucune</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="card">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                <span style="font-size: 14px; color: var(--amber)">⚠</span>
+                <span
+                  style="
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--text-main);
+                  "
+                  >Alertes & recommandations</span
+                >
+              </div>
+
+              <div class="alert-card alert-orange">
+                <div class="alert-title">
+                  Excès de vitesse en agglomération
+                </div>
+                <div class="alert-text">
+                  2 excès de vitesse détectés cette semaine en zones limitées à
+                  50 km/h. Réduisez légèrement votre vitesse pour préserver
+                  votre score et votre sécurité.
+                </div>
+              </div>
+
+              <div class="alert-card alert-green">
+                <div class="alert-title">
+                  Conduite fluide sur les trajets domicile-travail
+                </div>
+                <div class="alert-text">
+                  Vos freinages brusques ont diminué de 30 % par rapport au mois
+                  dernier. Cela réduit votre consommation et vos émissions de
+                  CO₂.
+                </div>
+              </div>
+
+              <div class="alert-card alert-blue">
+                <div class="alert-title">Astuce de la semaine</div>
+                <div class="alert-text">
+                  Anticipez les feux et les ronds-points pour limiter les
+                  freinages secs. Vous gagnerez en confort, en sécurité et en
+                  points.
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
