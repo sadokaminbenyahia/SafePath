@@ -1,5 +1,5 @@
-# Lloyd SafeDrive – Responsible Mobility Scoring Platform
-
+# Lloyd SafePath – Responsible Mobility Scoring Platform
+## SafePath — Stay Safe, Earn Points, Pay Less.
 AI-powered driver scoring platform for *Lloyd Assurances* combining:
 
 - *YOLO-based road sign detection* on real driving images.
